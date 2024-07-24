@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+path_list="/home/omapdy/Site /home/omapdy/.config"
+if [[ $# -gt 1 ]]; then
+    path_list=$1
+fi
+
+selected=$(find $path_list -mindepth 1 -maxdepth 1 -type d | fzf --bind tab:up,shift-tab:down )
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $tmux ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
+
+tmux switch-client -t $selected_name

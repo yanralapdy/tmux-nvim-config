@@ -1,0 +1,1 @@
+-- Suppose to be vim-tmux-navigator key mapping

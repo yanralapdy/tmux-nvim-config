@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>ee", vim.cmd.Ex)
 
+-- move one line content up or down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -13,10 +14,12 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- paste without replacing yank buffer (paste and add paste buffer into a void)
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
+-- yank to clipboard
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
+-- delete without replacing yang buffer
 vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
 

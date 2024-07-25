@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-path_list="/home/omapdy/Site /home/omapdy/.config"
+path_list="/Users/omapdy/Site /Users/omapdy/.config"
 max_depth=5
 if [[ $# -gt 0 ]]; then
     path_list=$1
@@ -10,7 +10,8 @@ if [[ $# -gt 1 ]] && [[ $2 =~ ^[0-9]+$ ]]; then
     max_depth=$2
 fi
 
-selected=$(find $path_list -mindepth 1 -maxdepth $max_depth  -type d | fzf --bind tab:up,shift-tab:down )
+#selected=$(find $path_list -mindepth 1 -maxdepth $max_depth  -type d | fzf --bind tab:up,shift-tab:down )
+selected=$(fd --max-depth $max_depth  --type d --hidden --exclude .git --exclude node_modules --exclude vendor . $path_list | fzf --bind tab:up,shift-tab:down )
 
 if [[ -z $selected ]]; then
     exit 0

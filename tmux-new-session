@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
 path_list="/home/omapdy/Site /home/omapdy/.config"
+max_depth=5
 if [[ $# -gt 0 ]]; then
     path_list=$1
 fi
 
-selected=$(find $path_list -mindepth 1 -maxdepth 5  -type d | fzf --bind tab:up,shift-tab:down )
+if [[ $# -gt 1 ]] && [[ $2 =~ ^[0-9]+$ ]]; then
+    max_depth=$2
+fi
+
+selected=$(find $path_list -mindepth 1 -maxdepth $max_depth  -type d | fzf --bind tab:up,shift-tab:down )
 
 if [[ -z $selected ]]; then
     exit 0

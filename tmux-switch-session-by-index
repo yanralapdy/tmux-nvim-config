@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Get the list of sessions
+sessions=$(tmux list-sessions -F "#{session_id}: #{session_name}")
+
+# Get the session ID by index
+index=$1
+session_id=$(echo "$sessions" | sed -n "${index}p" | cut -d: -f1)
+
+# Switch to the session if it exists
+if [ -n "$session_id" ]; then
+  tmux switch-client -t "$session_id"
+else
+  echo "No session at index $index"
+fi
+

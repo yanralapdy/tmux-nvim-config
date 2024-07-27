@@ -2,12 +2,27 @@
 
 path_list="/Users/omapdy/Site /Users/omapdy/.config"
 max_depth=5
+custom_selected_name="false"
+selected_name="home"
 if [[ $# -gt 0 ]]; then
-    path_list=$1
-fi
+    IFS=';' read -ra ARGS <<< $1
+    for ARG in ${ARGS[@]}; do
+        KEY=${ARG%%=*}
+        VALUE=${ARG#*=}
 
-if [[ $# -gt 1 ]] && [[ $2 =~ ^[0-9]+$ ]]; then
-    max_depth=$2
+        if [[ $KEY == "path" ]]; then
+            path_list=$VALUE
+        fi
+
+        if [[ $KEY == "m_d" ]] && [[ $VALUE =~ ^[0-9]+$ ]]; then
+            max_depth=$VALUE
+        fi
+
+        if [[ $KEY == "s_n" ]]; then
+            selected_name=$VALUE
+            custom_selected_name="true"
+        fi
+    done
 fi
 
 #selected=$(find $path_list -mindepth 1 -maxdepth $max_depth  -type d | fzf --bind tab:up,shift-tab:down )
@@ -17,7 +32,10 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
+if [[ $custom_selected_name == "false" ]]; then
+    selected_name=$(basename "$selected" | tr . _)
+fi
+
 tmux_running=$(pgrep tmux)
 
 if [[ -z $tmux ]] && [[ -z $tmux_running ]]; then

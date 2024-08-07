@@ -26,7 +26,7 @@ if [[ $# -gt 0 ]]; then
 fi
 
 #selected=$(find $path_list -mindepth 1 -maxdepth $max_depth  -type d | fzf --bind tab:up,shift-tab:down )
-selected=$(fd --max-depth $max_depth  --type d --hidden --exclude .git --exclude node_modules --exclude vendor . $path_list | fzf --bind tab:up,shift-tab:down )
+selected=$(fd --max-depth $max_depth --type d --hidden --exclude .git --exclude node_modules --exclude vendor . $path_list | fzf --bind tab:up,shift-tab:down)
 
 if [[ -z $selected ]]; then
     exit 0
@@ -38,7 +38,7 @@ fi
 
 tmux_running=$(pgrep tmux)
 
-if [[ -z $tmux ]] && [[ -z $tmux_running ]]; then
+if [[ -z $tmux_running ]]; then
     tmux new-session -s $selected_name -c $selected
     exit 0
 fi
@@ -47,4 +47,8 @@ if ! tmux has-session -t=$selected_name 2> /dev/null; then
     tmux new-session -ds $selected_name -c $selected
 fi
 
-tmux switch-client -t $selected_name
+if [[ -n $TMUX ]]; then
+    tmux switch-client -t $selected_name
+else
+    tmux attach-session -t $selected_name
+fi

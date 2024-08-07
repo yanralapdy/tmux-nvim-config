@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-path_list="/Users/omapdy/Site /Users/omapdy/.config"
+path_list="$HOME/Site $HOME/.config"
 max_depth=5
 custom_selected_name="false"
 selected_name="home"

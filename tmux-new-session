@@ -26,7 +26,11 @@ if [[ $# -gt 0 ]]; then
 fi
 
 #selected=$(find $path_list -mindepth 1 -maxdepth $max_depth  -type d | fzf --bind tab:up,shift-tab:down )
-selected=$(fd --max-depth $max_depth --type d --hidden --exclude .git --exclude node_modules --exclude vendor . $path_list | fzf --bind tab:up,shift-tab:down)
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    selected=$(fdfind --max-depth $max_depth --type d --hidden --exclude .git --exclude node_modules --exclude vendor . $path_list | fzf --bind tab:up,shift-tab:down)
+else
+    selected=$(fd --max-depth $max_depth --type d --hidden --exclude .git --exclude node_modules --exclude vendor . $path_list | fzf --bind tab:up,shift-tab:down)
+fi
 
 if [[ -z $selected ]]; then
     exit 0

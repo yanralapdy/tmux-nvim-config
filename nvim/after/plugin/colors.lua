@@ -7,13 +7,14 @@ function SetColor(color)
 end
 
 function SetIndent()
-    print("===============")
-    print(vim.bo.filetype)
-    print("===============")
     if vim.bo.filetype == "javascript" then
-        vim.bo.tabstop = 2
-        vim.bo.softtabstop = 2
-        vim.bo.shiftwidth = 2
+        vim.opt.tabstop = 2
+        vim.opt.softtabstop = 2
+        vim.opt.shiftwidth = 2
+    else
+        vim.opt.tabstop = 4
+        vim.opt.softtabstop = 4
+        vim.opt.shiftwidth = 4
     end
 end
 
